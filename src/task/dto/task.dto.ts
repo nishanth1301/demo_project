@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsPhoneNumber,
+  Validate,
 } from 'class-validator';
 
 export class TaskDto {
@@ -19,6 +20,9 @@ export class TaskDto {
   @IsNotEmpty()
   @IsPhoneNumber()
   phone_number: string;
+
+  @IsNotEmpty()
+  password: string;
 
   @IsNotEmpty()
   @IsDateString()

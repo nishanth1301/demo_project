@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Transform } from 'class-transformer';
+import { privateEncrypt } from 'crypto';
 import { Document } from 'mongoose';
 
 export type TaskDocument = Task & Document;
@@ -20,6 +21,9 @@ export class Task {
   email: string;
 
   @Prop({ required: true })
+  password: string;
+
+  @Prop({ required: true })
   phone_number: string;
 
   @Prop({ required: true })
@@ -30,3 +34,12 @@ export class Task {
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);
+
+TaskSchema.path('email').validate(async function (value: string) {
+  if (this.isNew) {
+    const count = await this.model('Task').count({ email: value });
+    return !count;
+  } else {
+    return true;
+  }
+}, 'Email Adress Already Exists');

@@ -10,10 +10,10 @@ import { encodePassword } from 'src/utils/bcrypt';
 export class TaskService {
   constructor(@InjectModel(Task.name) private taskModel: Model<TaskDocument>) {}
   async create(params: TaskDto): Promise<any> {
+    
     const password = await encodePassword(params.password);
     params.password = password;
     console.info(params);
-    // const ntask=this.taskModel.create({...params,password});
     return await this.taskModel.create({ ...params });
   }
   async update(id: string, params: upadateTaskDto): Promise<any> {

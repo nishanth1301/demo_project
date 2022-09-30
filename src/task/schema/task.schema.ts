@@ -17,7 +17,7 @@ export class Task {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   email: string;
 
   @Prop({ required: true })
@@ -35,11 +35,11 @@ export class Task {
 
 export const TaskSchema = SchemaFactory.createForClass(Task);
 
-TaskSchema.path('email').validate(async function (value: string) {
-  if (this.isNew) {
-    const count = await this.model('Task').count({ email: value });
-    return !count;
-  } else {
-    return true;
-  }
-}, 'Email Adress Already Exists');
+// TaskSchema.path('email').validate(async function (value: string) {
+//   if (this.isNew) {
+//     const count = await this.model('Task').count({ email: value });
+//     return !count;
+//   } else {
+//     return true;
+//   }
+// }, 'Email Adress Already Exists');
